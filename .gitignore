@@ -11,3 +11,4 @@ res/charset*.xpm
 *.swp
 *.swo
 *.orig
+.DS_Store
