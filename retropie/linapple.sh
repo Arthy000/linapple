@@ -45,7 +45,7 @@ function install_linapple() {
 function configure_linapple() {
     mkRomDir "apple2"
 
-    addEmulator 1 "$md_id" "apple2" "$md_inst/linapple.sh --conf %ROM%"
+    addEmulator 1 "$md_id" "apple2" "$md_inst/linapple.sh %ROM%"
     addSystem "apple2"
 
     [[ "$md_mode" == "remove" ]] && return
@@ -66,7 +66,12 @@ function configure_linapple() {
     cat >"$file" << _EOF_
 #!/bin/bash
 pushd "$romdir/apple2"
-$md_inst/linapple "\$@"
+if [[ "\$@" == *".conf" ]]
+then
+  /opt/retropie/emulators/linapple/linapple --conf "\$@" --autoboot
+else
+  /opt/retropie/emulators/linapple/linapple --d1 "\$@" --autoboot
+fi
 popd
 _EOF_
     chmod +x "$file"
